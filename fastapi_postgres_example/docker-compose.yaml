@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  psql:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=cG9zdGdyZXM=
+      - POSTGRES_DB=fastapi_postgres
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:cG9zdGdyZXM=@psql:5432/fastapi_postgres
+    depends_on:
+      - psql
